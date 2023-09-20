@@ -1,0 +1,12 @@
+main {
+    display: flex;
+    margin: 2rem;
+}
+
+.handledWords {
+    width: 30%;
+}
+
+.foundPages {
+    width: 70%;
+}

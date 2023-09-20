@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your first Spring application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/assets/css/basic.css?v=82368483">
+</head>
+<body>
+<span><a href="/static">Главная</a></span>
+<span>&emsp;&emsp;&emsp;</span>
+<span><a href="/settings">Настройки</a></span>
+
+<form action="/search" method="GET" id="nameForm">
+    <div style="padding-top: 30px">
+        <label for="nameField">Какое слово поищем?</label>
+        <input name="word" id="nameField">
+        <button onclick="connect()">Вперёд!</button>
+    </div>
+</form>
+
+<main>
+    <div class="foundPages">
+        <div id="foundPagesHeader">Результат поиска:</div>
+        <div id="foundPagesResult"></div>
+    </div>
+    <div class="handledWords">
+        <div id="handledWordsHeader">Слова, по которым был поиск:</div>
+        <div id="handledWordsResult"></div>
+    </div>
+</main>
+
+</body>
+<script>
+
+    const connect = () => {
+        var addressFP = 'http://localhost:8080/foundPages?word=' + document.getElementById('nameField').value;
+        var fp = new EventSource(addressFP);
+        fp.onmessage = function (evt) {
+            var el = document.getElementById('foundPagesResult');
+            el.innerHTML = evt.data;
+        }
+
+        var addressHW = 'http://localhost:8080/handledWords?word=' + document.getElementById('nameField').value;
+        var hw = new EventSource(addressHW);
+        hw.onmessage = function (evt) {
+            var el = document.getElementById('handledWordsResult');
+            el.innerHTML = evt.data;
+        }
+    }
+
+</script>
+</html>
